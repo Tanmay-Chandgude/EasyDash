@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f3f4f6 0%, #e2e8f0 100%);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      color: #333;
+    }
+
+    /* Sidebar Toggle Button Area */
+    .toggle-area {
+      width: 60px;
+      height: 60px;
+      background-color: #f4f7fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 15;
+    }
+
+    /* Sidebar Toggle Button */
+    .toggle-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .toggle-btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: linear-gradient(135deg, #4B164C 20%, #DD88CF 100%);
+      padding-top: 20px;
+      color: white;
+      position: fixed;
+      height: 100%;
+      left: -260px;
+      transition: left 0.3s ease;
+      z-index: 10;
+      box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar h4 {
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      padding: 14px 20px;
+      font-size: 16px;
+      color: #f8f9fa;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      transition: background 0.3s ease;
+      border-radius: 6px;
+      margin: 5px 10px;
+    }
+
+    .sidebar a i {
+      font-size: 18px;
+      margin-right: 12px;
+    }
+
+    .sidebar a:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Content */
+    .content {
+      padding: 30px;
+      padding-top: 80px;
+      margin-left: 60px;
+      width: calc(100% - 60px);
+      transition: margin-left 0.3s ease;
+    }
+
+    .content.shift {
+      margin-left: 260px;
+      width: calc(100% - 260px);
+    }
+
+    /* Header */
+    .header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 22px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0.5px;
+      left: 60px;
+      right: 10px;
+      z-index: 5;
+      transition: left 0.3s ease;
+    }
+
+    .header.shift {
+      left: 310px;
+    }
+
+    .header i {
+      font-size: 24px;
+      margin-right: 10px;
+    }
+
+    /* Cards */
+    .card {
+      border: none;
+      border-radius: 16px;
+      padding: 24px;
+      color: white;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card h5 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Colors for Cards */
+    .card-primary {
+      background: linear-gradient(135deg, #DE3163  30%, #E195AB  100%);
+    }
+
+    .card-success {
+      background: linear-gradient(135deg, #28a745  30%, #42d392  100%);
+    }
+
+    .card-warning {
+      background: linear-gradient(135deg, #ff7b00  30%, #ffc107  100%);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 220px;
+      }
+
+      .sidebar.open {
+        left: 0;
+      }
+
+      .content.shift {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+      }
+
+      .header.shift {
+        left: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar Toggle Area -->
+<div class="toggle-area">
+  <button class="toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+    <i class="fas fa-bars"></i>
+  </button>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <h4><i class="fas fa-cogs"></i> Admin Panel</h4>
+  <a href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+  <a href="registration.html"><i class="fas fa-user-plus"></i> Register User</a>
+  <a href="userlist.html"><i class="fas fa-users"></i> User List</a>
+</div>
+
+<!-- Content -->
+<div class="content" id="content">
+  <div class="header mb-4" id="header">
+    <span><i class="fas fa-chart-line"></i> Dashboard Overview</span>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-4 mb-4">
+      <div class="card card-primary">
+        <h5>Total Users</h5>
+        <p id="totalUsers">0</p>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card card-success">
+        <h5>Active Users</h5>
+        <p id="activeUsers">12</p>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card card-warning">
+        <h5>Pending Requests</h5>
+        <p id="pendingRequests">4</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('content').classList.toggle('shift');
+    document.getElementById('header').classList.toggle('shift');
+  }
+</script>
+
+</body>
+</html>

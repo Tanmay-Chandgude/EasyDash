@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #F93827 20%, #00c6ff 100%);
+      overflow: hidden;
+      position: relative;
+      height: 100vh;
+    }
+    
+    .card {
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      background: white;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .form-control {
+      border-radius: 8px;
+      padding: 10px;
+    }
+    
+    .form-control:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 8px rgba(0,123,255,0.2);
+    }
+    
+    .btn-primary {
+      width: 100%;
+      border-radius: 8px;
+      font-weight: bold;
+      padding: 10px;
+      background-color: #007bff;
+      border: none;
+      transition: background 0.3s;
+    }
+    
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .input-group-text {
+      background-color: #007bff;
+      color: white;
+      border-radius: 8px 0 0 8px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Success Popup */
+    .popup {
+      position: fixed;
+      top: 20px;
+      right: -400px;
+      background: #28a745;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      transition: right 0.5s ease-in-out;
+    }
+
+    .popup i {
+      margin-right: 10px;
+    }
+
+    .popup.show {
+      right: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Abstract Shapes -->
+<div class="container">
+  <div class="col-md-6">
+    <div class="card p-4">
+      <h3 class="text-center mb-4 text-primary">User Registration</h3>
+      <form id="registrationForm">
+        
+        <!-- Name Field -->
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-user"></i></span>
+          <input type="text" class="form-control" id="name" placeholder="Full Name" required>
+        </div>
+
+        <!-- Email Field -->
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+          <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+        </div>
+
+        <!-- Role Field -->
+        <div class="mb-3 input-group">
+          <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+          <input type="text" class="form-control" id="role" placeholder="Role" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Success Popup -->
+<div id="successPopup" class="popup">
+  <i class="fas fa-check-circle"></i> User registered successfully!
+</div>
+
+<script>
+  document.getElementById("registrationForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const user = {
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      role: document.getElementById("role").value
+    };
+
+    // Store in local storage
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    users.push(user);
+    localStorage.setItem("users", JSON.stringify(users));
+
+    // Show custom popup
+    const popup = document.getElementById("successPopup");
+    popup.classList.add("show");
+
+    // Hide popup after 3 seconds and redirect
+    setTimeout(() => {
+      popup.classList.remove("show");
+      window.location.href = "userlist.html";
+    }, 2000);
+  });
+</script>
+
+</body>
+</html>
